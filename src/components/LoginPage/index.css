@@ -1,0 +1,24 @@
+.loginPage{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.input_holder{
+    width: 400px;
+    height: 30px;
+    border: 0;
+    border-bottom: 1px solid gray;
+}
+
+.login_btn{
+    width: 400px;
+    height: 50px;
+    font-size: large;
+}
+
+.login_extra{
+    margin-top: 20px;
+}
