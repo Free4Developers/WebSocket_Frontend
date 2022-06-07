@@ -16,7 +16,7 @@ export async function signIn(param){
 }
 
 export async function signUp(param){
-    const data = await axios.post("http://localhost:8080/auth/signup", {
+    const data = await axios.post("/auth/signup", {
         nickname: param.nickname,
         email: param.email,
         password: param.password
@@ -27,6 +27,18 @@ export async function signUp(param){
         console.log(err)
         return err;
     })
+
+    return data;
+}
+
+export async function getUserToken(code, state){
+    console.log(code)
+    console.log(state)
+    const data = await axios.get(`/oauth2/login/callback/kakao?code=${code}&state=${state}`, {
+        headers: {
+            
+        }
+    });
 
     return data;
 }
