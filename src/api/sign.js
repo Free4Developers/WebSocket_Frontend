@@ -22,10 +22,8 @@ export async function signUp(param){
         password: param.password
     }).then(res => {
         console.log(res)
-        return res;
     }).catch(err => {
         console.log(err)
-        return err;
     })
 
     return data;
@@ -34,11 +32,7 @@ export async function signUp(param){
 export async function getUserToken(code, state){
     console.log(code)
     console.log(state)
-    const data = await axios.get(`/oauth2/login/callback/kakao?code=${code}&state=${state}`, {
-        headers: {
-            
-        }
-    });
-
-    return data;
+    const data = await axios.get(`/oauth2/login/callback/kakao?code=${code}&state=${state}`);
+    console.log(data)
+    return data.data;
 }
