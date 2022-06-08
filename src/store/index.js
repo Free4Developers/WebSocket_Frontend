@@ -1,7 +1,7 @@
-import { createSlice, configureStore } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialAuthState = {
-    acessToken: ''
+    accessToken: ''
 };
 
 const authSlice = createSlice({
@@ -10,10 +10,10 @@ const authSlice = createSlice({
     reducers:{
         login(state, action){
             console.log('store 토큰 등록',action.payload)
-            state.acessToken =  action.payload;
+            state.accessToken =  action.payload;
         },
         logout(state){
-            state.acessToken = '';
+            state.accessToken = '';
         }
     }
 });
