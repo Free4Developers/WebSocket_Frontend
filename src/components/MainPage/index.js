@@ -6,9 +6,11 @@ import { authActions } from "../../store";
 const MainPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
     const accessToken = useSelector(state => state.accessToken);
     const [userInfo, setUserInfo] = useState({nickname: '', email: ''});
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+
     useEffect(()=>{
         console.log(accessToken)
         if(accessToken!==''){
