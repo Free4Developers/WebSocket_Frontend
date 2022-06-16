@@ -12,16 +12,29 @@ const MainPage = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(()=>{
+        document.dispatchEvent(new CustomEvent('chrome_extension_available_app', { detail: { available: true } }));
+        console.log("d")
+    },[])
+
+    useEffect(()=>{
         console.log(accessToken)
+        // if Access Token Valid
         if(accessToken!==''){
+            // 1. set Access Token to Redux Store to use for the application
             console.log(accessToken)
             let splitToken = accessToken.split('.');
-            let id = splitToken[1].substr(0,2);
-            console.log(id)
-            getUser('1', accessToken).then((res) => {
+            let id = JSON.parse(atob(splitToken[1])).sub;
+            getUser(id, accessToken).then((res) => {
                 console.log(res);
                 setUserInfo(prevState => {return {...prevState, nickname: res.data.nickname, email: res.data.email}})
                 setIsLoggedIn(true);
+                // 2. send Access Token to extension with event
+                let data = {
+                    accessToken: accessToken,
+                    userInfo: res.data
+                };
+                // send data through a DOM event
+                document.dispatchEvent(new CustomEvent('authListener', { detail: data }));
             })
         }
     },[accessToken])
