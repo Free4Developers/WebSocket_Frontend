@@ -13,25 +13,30 @@ const MainPage = () => {
 
     useEffect(()=>{
         document.dispatchEvent(new CustomEvent('chrome_extension_available_app', { detail: { available: true } }));
-        console.log("d")
     },[])
 
     useEffect(()=>{
-        console.log(accessToken)
         // if Access Token Valid
         if(accessToken!==''){
             // 1. set Access Token to Redux Store to use for the application
-            console.log(accessToken)
             let splitToken = accessToken.split('.');
             let id = JSON.parse(atob(splitToken[1])).sub;
+
             getUser(id, accessToken).then((res) => {
-                console.log(res);
                 setUserInfo(prevState => {return {...prevState, nickname: res.data.nickname, email: res.data.email}})
                 setIsLoggedIn(true);
                 // 2. send Access Token to extension with event
                 let data = {
                     accessToken: accessToken,
-                    userInfo: res.data
+                    userInfo: res.data,
+                    serverUri: 'http://localhost:8080/stomp/chat',
+                    stomp: {
+                        subscribe: '/channel/chat/room/open',
+                        enter: '/publish/chat/enter',
+                        send: '/publish/chat/message',
+                        roomId: 'open',
+                    },
+                    debugMode: true, 
                 };
                 // send data through a DOM event
                 document.dispatchEvent(new CustomEvent('authListener', { detail: data }));
